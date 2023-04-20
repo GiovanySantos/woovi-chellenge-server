@@ -8,6 +8,7 @@ export const getContentKeys = async (
   lang: EnumLanguage
 ): Promise<IContentResponse[]> => {
   const res: IContentResponse[] = [];
+
   const DBContentKeys = await getContentKeysFromDB();
   if (!DBContentKeys) return;
 
