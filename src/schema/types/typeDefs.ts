@@ -5,7 +5,7 @@ const typeDefs = `#graphql
   }
 
   type Query {
-    contentKeys(keyList: [String]!, lang: String!): [ContentKeyResponseType]
+    contentKeys(page: String!, lang: String!): [ContentKeyResponseType]
   }
 `;
 

@@ -17,9 +17,10 @@ const disconnect = async () => {
     .catch((error) => console.log(error));
 };
 
-export const getContentKeysFromDB = async () => {
+export const getContentKeysFromDB = async (page: string) => {
+  const query = ContentKeyModel.where({ page_name: String(page) });
   await connect();
-  const data = await ContentKeyModel.find();
+  const data = await query.findOne();
   await disconnect();
   return data;
 };
