@@ -1,5 +1,6 @@
 import { model } from "mongoose";
-import { contentKeySchema } from "../schemas/schemas";
+import { contentKeySchema, userSchema } from "../schemas/schemas";
 
 export const ContentKeyModel = model("ContentKeyModel", contentKeySchema);
+export const UserModel = model("UserModel", userSchema);
 

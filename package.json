@@ -5,7 +5,7 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "start": "nodemon"
+    "dev": "nodemon"
   },
   "dependencies": {
     "@apollo/server": "^4.5.0",

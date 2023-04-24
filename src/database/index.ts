@@ -1,6 +1,8 @@
 import mongoose from "mongoose";
 import * as dotenv from "dotenv";
-import { ContentKeyModel } from "./models/models";
+import { ContentKeyModel, UserModel } from "./models/models";
+import { GraphQLError } from "graphql";
+
 dotenv.config();
 
 const connect = async () => {
@@ -23,5 +25,31 @@ export const getContentKeysFromDB = async (page: string) => {
   const data = await query.findOne();
   await disconnect();
   return data;
+};
+
+export const createUser = async (
+  name: string,
+  email: string,
+  password: string
+) => {
+  await connect();
+  const user = new UserModel({
+    name: name,
+    email: email,
+    password: password,
+  });
+
+  if (UserModel.findOne({ email: email })) {
+    throw new GraphQLError("email_in_use", {
+      extensions: { code: "BAD_USER_INPUT" },
+    });
+  }
+
+  try {
+    await user.save();
+    return user;
+  } catch (error) {
+    return error;
+  }
 };
 
