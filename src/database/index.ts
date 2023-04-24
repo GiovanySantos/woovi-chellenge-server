@@ -33,17 +33,18 @@ export const createUser = async (
   password: string
 ) => {
   await connect();
+
+  if (await UserModel.findOne({ email })) {
+    throw new GraphQLError("email_in_use", {
+      extensions: { code: "BAD_USER_INPUT" },
+    });
+  }
+
   const user = new UserModel({
     name: name,
     email: email,
     password: password,
   });
-
-  if (UserModel.findOne({ email: email })) {
-    throw new GraphQLError("email_in_use", {
-      extensions: { code: "BAD_USER_INPUT" },
-    });
-  }
 
   try {
     await user.save();
