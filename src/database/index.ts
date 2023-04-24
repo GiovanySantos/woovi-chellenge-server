@@ -18,8 +18,8 @@ const disconnect = async () => {
 };
 
 export const getContentKeysFromDB = async (page: string) => {
-  const query = ContentKeyModel.where({ page_name: String(page) });
   await connect();
+  const query = ContentKeyModel.where({ page_name: String(page) });
   const data = await query.findOne();
   await disconnect();
   return data;
