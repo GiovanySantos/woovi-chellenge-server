@@ -1,4 +1,4 @@
-import { createUser, getContentKeysFromDB } from "../../database";
+import { createUser, findUser, getContentKeysFromDB } from "../../database";
 import { IContentDBSchema } from "../../database/schemas/schemas";
 
 enum EnumLang {
@@ -41,7 +41,15 @@ const resolvers = {
   Mutation: {
     createUser: async (_, { name, email, password }) => {
       try {
-        const response = createUser(name, email, password);
+        const response = await createUser(name, email, password);
+        return response;
+      } catch (error) {
+        throw new Error(error);
+      }
+    },
+    getAuthUser: async (_, { email, password }) => {
+      try {
+        const response = await findUser(email, password);
         return response;
       } catch (error) {
         throw new Error(error);

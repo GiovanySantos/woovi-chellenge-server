@@ -1,0 +1,44 @@
+------- To Do
+Setup all login functionality
+Setup tests
+
+Setup CI/CD pipeline
+-functional test
+-unit test
+-e2e test
+-publish
+
+
+
+
+
+├── config/
+│   ├── index.ts
+│   └── ...
+├── controllers/
+│   ├── index.ts
+│   └── ...
+├── models/
+│   ├── index.ts
+│   └── ...
+├── resolvers/
+│   ├── index.ts
+│   └── ...
+├── schema/
+│   ├── index.ts
+│   └── ...
+├── services/
+│   ├── index.ts
+│   └── ...
+├── tests/
+│   ├── integration/
+│   ├── unit/
+│   └── ...
+├── utils/
+│   ├── index.ts
+│   └── ...
+├── src/
+│   ├── app.ts
+│   └── ...
+├── tsconfig.json
+└── ...

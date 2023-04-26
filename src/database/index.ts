@@ -35,7 +35,8 @@ export const createUser = async (
   await connect();
 
   if (await UserModel.findOne({ email })) {
-    throw new GraphQLError("email_in_use", {
+    await disconnect();
+    throw new GraphQLError("email_validation_2", {
       extensions: { code: "BAD_USER_INPUT" },
     });
   }
@@ -51,6 +52,22 @@ export const createUser = async (
     return user;
   } catch (error) {
     return error;
+  } finally {
+    await disconnect();
   }
+};
+
+export const findUser = async (email: string, password: string) => {
+  await connect();
+  const userData = await UserModel.findOne({ email });
+  await disconnect();
+
+  if (!userData || password !== userData.password) {
+    throw new GraphQLError("email_or_password_error_message", {
+      extensions: { code: "BAD_USER_INPUT" },
+    });
+  }
+
+  return userData;
 };
 
