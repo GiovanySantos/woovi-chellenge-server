@@ -1,14 +1,16 @@
-// import { ContentKeyModel } from '../models/contentkey'
-// import { connect, disconnect } from '../utils'
+import { GraphQLError } from 'graphql';
+import { ContentKeyModel } from '../models/contentkey';
+import { connect, disconnect } from '../utils';
 
-// export const getContentKeysFromDB = async (page: string) => {
-//   await connect()
-//   try {
-//     const query = ContentKeyModel.where({ page_name: String(page) })
-//     const data = await query.findOne()
-//     return data
-//   } catch (error) {
-//   } finally {
-//     await disconnect()
-//   }
-// }
+export const findContentKeys = async (page: string) => {
+  await connect();
+  try {
+    const data = await ContentKeyModel.findOne({ page_name: page });
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw new GraphQLError('Error consulting content keys');
+  } finally {
+    await disconnect();
+  }
+};
