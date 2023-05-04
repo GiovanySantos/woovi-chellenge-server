@@ -7,14 +7,10 @@ export const createUser = async (
   email: string,
   password: string
 ): Promise<User> => {
-  const emailExists = await userService.findUserByEmail(email);
-  if (emailExists) {
-    throw new GraphQLError('Email already exists', {
-      extensions: { code: 'BAD_USER_INPUT' },
-    });
-  }
-  const result: User = await userService.insertUser(username, email, password);
+  const emailInUse = await userService.findUserByEmail(email);
+  if (emailInUse) throw new GraphQLError('Email already in use');
 
+  const result: User = await userService.insertUser(username, email, password);
   return result;
 };
 

@@ -11,18 +11,18 @@ export const insertUser = async (
   await connect();
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
+
     const userModel = new UserModel({
       username: username,
       email: email,
       password: hashedPassword,
     });
+
     const result = await userModel.save();
 
     return result;
   } catch (error) {
-    throw new GraphQLError(error, {
-      extensions: { code: 'BAD_USER_INPUT' },
-    });
+    throw new GraphQLError('Error saving the user');
   } finally {
     await disconnect();
   }
@@ -32,11 +32,8 @@ export const findUserByEmail = async (email: string) => {
   await connect();
   try {
     const user = await UserModel.findOne({ email: email });
-    if (user) {
-      return true;
-    } else {
-      return false;
-    }
+    if (user) return true;
+    return false;
   } catch (error) {
     throw new GraphQLError('Error consulting email');
   } finally {
