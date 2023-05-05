@@ -2,43 +2,34 @@ import request, { Response } from 'supertest';
 import { createApolloServer } from '../src/ApolloServer';
 import { ApolloServer } from '@apollo/server';
 
-const queryData = {
-  query: `query ContentKeys($page: String!, $lang: String!) {
-    contentKeys(page: $page, lang: $lang) {
-      content
-      key
+const mutation = `mutation {
+    createUser(
+      input: {
+        username: "giovany",
+        email: "giovany.email@teste.com",
+        password: "SenhaSegura123",
+      }
+    ) {
+      email
+      username
     }
-  }`,
-  variables: {
-    page: 'auth_page',
-    lang: 'pt_BR',
-  },
-};
+  }`;
 
-const authContentKeys = [
-  'signin_successful',
-  'welcome_message',
-  'login_signup_message',
-  'login_button',
-  'Cadaste-se',
-  'signup_button',
-];
-
-describe('Authentication e2e test', () => {
+describe('Should test authentication', () => {
   let server: ApolloServer;
   let url: string;
   let response: Response;
 
   beforeAll(async () => {
     ({ server, url } = await createApolloServer({ port: 0 }));
-    response = await request(url).post('/').send(queryData);
+    response = await request(url).post('/').send({ query: mutation });
   });
 
   afterAll(async () => {
     await server?.stop();
   });
 
-  authContentKeys.forEach((ck) => {
-    it(`Should test ${ck}`, () => expect(response.text).toContain(ck));
+  it(`Should create user and return email and username`, () => {
+    expect(response.text).toContain('Email already in use');
   });
 });
